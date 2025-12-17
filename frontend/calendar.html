@@ -14,7 +14,7 @@
     }
 
     .month-navigation button {
-      padding: 5px 10px;
+      padding: 6px 12px;
       cursor: pointer;
       font-size: 1rem;
     }
@@ -52,15 +52,31 @@
     .memory-card {
       border: 1px solid #ccc;
       padding: 10px;
-      margin-bottom: 5px;
-      border-radius: 5px;
+      margin-bottom: 10px;
+      border-radius: 10px;
       background-color: #fff0f5;
     }
 
     .memory-card img {
       max-width: 100%;
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
+      border-radius: 6px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 6px 14px;
+      background-color: #ff5d8f;
+      color: white;
+      text-decoration: none;
+      border-radius: 20px;
+      font-size: 13px;
+    }
+
+    .download-btn:hover {
+      background-color: #e0487d;
     }
   </style>
 </head>
@@ -75,6 +91,7 @@
 <!-- 🎵 Música del calendario -->
 <audio id="calendar-music" loop>
   <source src="/static/audio/musica2.mp3" type="audio/mpeg">
+  Tu navegador no soporta audio
 </audio>
 
 <button id="calendarMusicBtn" class="music-btn">
@@ -115,8 +132,7 @@ calendarMusicBtn.addEventListener("click", () => {
       calendarMusicBtn.innerText = "🎵 Música sonando...";
       calendarMusicBtn.disabled = true;
     })
-    .catch(err => {
-      console.error(err);
+    .catch(() => {
       alert("El navegador bloqueó la música 😢");
     });
 });
@@ -176,7 +192,7 @@ function renderCalendar(date) {
   calendar.appendChild(grid);
 }
 
-// 3️⃣ Mostrar recuerdos
+// 3️⃣ Mostrar recuerdos (con descarga)
 function showMemories(fecha) {
   const container = document.getElementById("memories");
   document.getElementById("selected-date").textContent = `💖 Recuerdos del ${fecha}`;
@@ -192,10 +208,18 @@ function showMemories(fecha) {
   recuerdos.forEach(r => {
     const card = document.createElement("div");
     card.className = "memory-card";
+
     card.innerHTML = `
-      ${r.image ? `<img src="${r.image}">` : ""}
+      ${r.image ? `<img src="${r.image}" alt="Recuerdo">` : ""}
       <p>${r.nota || ""}</p>
+
+      ${r.image ? `
+        <a href="${r.image}" download class="download-btn">
+          ⬇️ Descargar recuerdo
+        </a>
+      ` : ""}
     `;
+
     container.appendChild(card);
   });
 }
@@ -214,6 +238,5 @@ document.getElementById("next-month").onclick = () => {
 
 </body>
 </html>
-
 
 
