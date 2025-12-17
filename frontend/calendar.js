@@ -39,6 +39,11 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     }
   );
+  function goToIndex() {
+  window.location.href = "/index";
+}
+
 
   calendar.render();
 });
+
