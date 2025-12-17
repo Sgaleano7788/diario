@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nuestro Álbum 📸</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>📸 Nuestro Álbum de Amor</h1>
+
+<div class="card">
+  <form id="uploadForm">
+    <input type="date" name="fecha" required><br><br>
+    <textarea name="nota" placeholder="Escribe algo bonito ❤️"></textarea><br><br>
+    <input type="file" name="foto" required><br><br>
+    <button type="submit">Guardar recuerdo</button>
+  </form>
+</div>
+
+<br>
+<center>
+  <button onclick="location.href='/calendar'">Ver calendario 📅</button>
+</center>
+
+<script src="/static/script.js"></script>
+</body>
+</html>

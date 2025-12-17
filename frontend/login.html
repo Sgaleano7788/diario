@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Nuestro Álbum 💖</title>
+
+  <meta name="google-signin-client_id"
+        content="1062764396772-bo2jont6tno05vch8dpm8f1r6a38q9rt.apps.googleusercontent.com">
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <style>
+    body {
+      background: #fde2e4;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 60px;
+      color: #b3005e;
+    }
+
+    p {
+      color: #6d0042;
+      font-size: 16px;
+    }
+
+    #login {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>💖 Nuestro Álbum 💖</h1>
+<p>Inicia sesión para ver nuestros recuerdos</p>
+
+<div id="login"></div>
+
+<script>
+  window.onload = function () {
+    google.accounts.id.initialize({
+      client_id: "1062764396772-bo2jont6tno05vch8dpm8f1r6a38q9rt.apps.googleusercontent.com",
+      callback: handleCredentialResponse
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("login"),
+      { theme: "outline", size: "large" }
+    );
+  };
+
+  function handleCredentialResponse(response) {
+    fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        token: response.credential
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.email) {
+        alert("Bienvenido " + data.name + " 💖");
+
+        // ✅ REDIRECCIÓN CORRECTA
+        window.location.href = "/index";
+      } else {
+        alert("Error al iniciar sesión");
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Error de conexión con el servidor");
+    });
+  }
+</script>
+
+</body>
+</html>
