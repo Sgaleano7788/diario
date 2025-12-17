@@ -155,11 +155,17 @@ def calendar_page():
 @app.route("/images/uploads/<filename>")
 def images(filename):
     return send_from_directory(UPLOAD_DIR, filename)
+    
+@app.route("/static/<path:filename>")
+def static_files(filename):
+    return send_from_directory("../frontend", filename)
+
 
 # =============================
 # MAIN
 # =============================
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
