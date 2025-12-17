@@ -5,6 +5,37 @@ body {
   margin: 0;
 }
 
+#heart {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  font-size: 4rem;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.5s ease;
+}
+
+#heart.show {
+  transform: translate(-50%, -50%) scale(1.5);
+  opacity: 1;
+}
+
+.download-btn {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 6px 10px;
+  background: #ffb3c6;
+  color: #700030;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.download-btn:hover {
+  background: #ff8fab;
+}
+
 h1 {
   font-family: 'Playfair Display', serif;
   text-align: center;
@@ -171,4 +202,5 @@ textarea, input {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
 
