@@ -43,7 +43,31 @@ document.addEventListener("DOMContentLoaded", async function () {
   window.location.href = "/index";
 }
 
+// ===============================
+// 🎵 MÚSICA DEL CALENDARIO
+// ===============================
+
+const calendarMusic = document.getElementById("calendar-music");
+const calendarMusicBtn = document.getElementById("calendarMusicBtn");
+
+if (calendarMusic && calendarMusicBtn) {
+  calendarMusic.volume = 0.25;
+
+  calendarMusicBtn.addEventListener("click", () => {
+    calendarMusic.play()
+      .then(() => {
+        calendarMusicBtn.innerText = "🎵 Música sonando...";
+        calendarMusicBtn.disabled = true;
+      })
+      .catch(err => {
+        console.error(err);
+        alert("El navegador bloqueó la música 😢");
+      });
+  });
+}
+
 
   calendar.render();
 });
+
 
