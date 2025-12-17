@@ -9,7 +9,12 @@ from datetime import datetime
 # =============================
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
-from google_photos import upload_photo
+
+# Google Photos (opcional)
+try:
+    from google_photos import upload_photo
+except Exception:
+    upload_photo = None
 
 # =============================
 # CONFIG
@@ -20,7 +25,7 @@ STATIC_DIR = os.path.join(FRONTEND_DIR, "static")
 UPLOAD_DIR = os.path.join(STATIC_DIR, "images", "uploads")
 DB_NAME = os.path.join(BASE_DIR, "recuerdos.db")
 
-GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "")
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
@@ -58,11 +63,16 @@ init_db()
 # =============================
 @app.route("/login", methods=["POST"])
 def login():
-    token = request.json.get("token")
+    data = request.get_json(silent=True)
+    if not data or "token" not in data:
+        return jsonify({"error": "Token requerido"}), 400
+
+    if not GOOGLE_CLIENT_ID:
+        return jsonify({"error": "Google login no configurado"}), 500
 
     try:
         info = id_token.verify_oauth2_token(
-            token,
+            data["token"],
             google_requests.Request(),
             GOOGLE_CLIENT_ID
         )
@@ -91,10 +101,14 @@ def upload():
 
     # Google Photos (opcional)
     photo_id = None
-    try:
-        photo_id = upload_photo(save_path)
-    except Exception as e:
-        print("Google Photos:", e)
+    google_uploaded = False
+
+    if upload_photo:
+        try:
+            photo_id = upload_photo(save_path)
+            google_uploaded = True
+        except Exception as e:
+            print("Google Photos error:", e)
 
     image_path = f"/static/images/uploads/{filename}"
 
@@ -107,11 +121,11 @@ def upload():
     conn.commit()
     conn.close()
 
-   return jsonify({
-    "message": "Recuerdo guardado 💖",
-    "google_uploaded": photo_id is not None
-})
-
+    return jsonify({
+        "message": "Recuerdo guardado 💖",
+        "google_uploaded": google_uploaded,
+        "image": image_path
+    })
 
 # =============================
 # GET RECUERDOS
