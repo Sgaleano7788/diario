@@ -1,7 +1,3 @@
-document.getElementById("uploadForm").addEventListener("submit", async e => {
-  e.preventDefault();
-
-  const formData = new FormData(e.target);
 // ===============================
 // 🎵 MÚSICA DE FONDO (HTML AUDIO)
 // ===============================
@@ -10,9 +6,9 @@ const music = document.getElementById("bg-music");
 const musicBtn = document.getElementById("musicBtn");
 
 if (music && musicBtn) {
-  musicBtn.addEventListener("click", () => {
-    music.volume = 0.25;
+  music.volume = 0.25;
 
+  musicBtn.addEventListener("click", () => {
     music.play()
       .then(() => {
         musicBtn.innerText = "🎵 Música sonando...";
@@ -43,16 +39,22 @@ if (uploadForm) {
         body: formData
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
-        throw new Error(data.error || "Error al guardar");
+        throw new Error("Error al guardar el recuerdo");
       }
 
-      alert("💖 Recuerdo guardado con amor");
+      const data = await res.json();
+
+      alert(data.message || "💖 Recuerdo guardado con amor");
       uploadForm.reset();
 
+      // (opcional) Si existe calendario en esta página
+      if (typeof loadMemories === "function") {
+        loadMemories();
+      }
+
     } catch (err) {
+      console.error(err);
       alert("❌ " + err.message);
     }
   });
