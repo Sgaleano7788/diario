@@ -21,7 +21,9 @@ FRONTEND_DIR = os.path.join(BASE_DIR, "..", "frontend")
 UPLOAD_DIR = os.path.join(FRONTEND_DIR, "images", "uploads")
 DB_NAME = os.path.join(BASE_DIR, "recuerdos.db")
 
-GOOGLE_CLIENT_ID = "1062764396772-bo2jont6tno05vch8dpm8f1r6a38q9rt.apps.googleusercontent.com"
+
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
+
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
@@ -159,4 +161,5 @@ def images(filename):
 # =============================
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
