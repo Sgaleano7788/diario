@@ -3,21 +3,26 @@ document.getElementById("uploadForm").addEventListener("submit", async e => {
 
   const formData = new FormData(e.target);
 
-  // ===============================
-// 🎵 MÚSICA DE FONDO
+// ===============================
+// 🎵 MÚSICA DE FONDO (FORMA SEGURA)
 // ===============================
 
-let musicStarted = false;
-const music = new Audio("/audio/musica.mp3");
+const music = new Audio("/static/audio/musica.mp3");
 music.loop = true;
 music.volume = 0.25;
 
-// Iniciar música al primer click del usuario
-document.addEventListener("click", () => {
-  if (!musicStarted) {
-    music.play().catch(() => {});
-    musicStarted = true;
-  }
+const musicBtn = document.getElementById("musicBtn");
+
+musicBtn.addEventListener("click", () => {
+  music.play()
+    .then(() => {
+      musicBtn.innerText = "🎵 Música sonando...";
+      musicBtn.disabled = true;
+    })
+    .catch(err => {
+      alert("El navegador bloqueó la música 😢");
+      console.error(err);
+    });
 });
 
 // ===============================
@@ -29,18 +34,18 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
   const formData = new FormData(e.target);
 
-  const response = await fetch("/upload", {
+  const res = await fetch("/upload", {
     method: "POST",
     body: formData
   });
 
-  const result = await response.json();
+  const data = await res.json();
 
-  if (response.ok) {
+  if (res.ok) {
     alert("💖 Recuerdo guardado con amor");
     e.target.reset();
   } else {
-    alert(result.error || "Error al guardar recuerdo");
+    alert(data.error || "Error al guardar");
   }
 });
 
@@ -70,4 +75,5 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
     alert("❌ " + err.message);
   }
 });
+
 
