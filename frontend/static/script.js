@@ -2,7 +2,6 @@ document.getElementById("uploadForm").addEventListener("submit", async e => {
   e.preventDefault();
 
   const formData = new FormData(e.target);
-
 // ===============================
 // 🎵 MÚSICA DE FONDO (FORMA SEGURA)
 // ===============================
@@ -13,67 +12,55 @@ music.volume = 0.25;
 
 const musicBtn = document.getElementById("musicBtn");
 
-musicBtn.addEventListener("click", () => {
-  music.play()
-    .then(() => {
-      musicBtn.innerText = "🎵 Música sonando...";
-      musicBtn.disabled = true;
-    })
-    .catch(err => {
-      alert("El navegador bloqueó la música 😢");
-      console.error(err);
-    });
-});
+if (musicBtn) {
+  musicBtn.addEventListener("click", () => {
+    music.play()
+      .then(() => {
+        musicBtn.innerText = "🎵 Música sonando...";
+        musicBtn.disabled = true;
+      })
+      .catch(err => {
+        console.error(err);
+        alert("El navegador bloqueó la música 😢");
+      });
+  });
+}
 
 // ===============================
 // 💖 GUARDAR RECUERDO
 // ===============================
 
-document.getElementById("uploadForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
+const uploadForm = document.getElementById("uploadForm");
 
-  const formData = new FormData(e.target);
+if (uploadForm) {
+  uploadForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const res = await fetch("/upload", {
-    method: "POST",
-    body: formData
+    const formData = new FormData(uploadForm);
+
+    try {
+      const res = await fetch("/upload", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Error al guardar el recuerdo");
+      }
+
+      alert("💖 Recuerdo guardado con amor");
+      uploadForm.reset();
+
+      // 🔄 Recargar calendario si existe
+      if (typeof loadMemories === "function") {
+        loadMemories();
+      }
+
+    } catch (err) {
+      alert("❌ " + err.message);
+    }
   });
-
-  const data = await res.json();
-
-  if (res.ok) {
-    alert("💖 Recuerdo guardado con amor");
-    e.target.reset();
-  } else {
-    alert(data.error || "Error al guardar");
-  }
-});
-
-
-  try {
-    const res = await fetch("/upload", {
-      method: "POST",
-      body: formData
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.error || "Error al guardar el recuerdo");
-    }
-
-    alert("💖 Recuerdo guardado con amor");
-
-    e.target.reset();
-
-    // 🔄 Recargar recuerdos en el calendario
-    if (typeof loadMemories === "function") {
-      loadMemories();
-    }
-
-  } catch (err) {
-    alert("❌ " + err.message);
-  }
-});
-
+}
 
