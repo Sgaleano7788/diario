@@ -1,206 +1,176 @@
+/* ===============================
+   🎀 ESTILO BASE (MOBILE FIRST)
+================================ */
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  background: linear-gradient(#fff0f3, #ffe6ea);
-  font-family: 'Poppins', sans-serif;
-  color: #5a2a35;
   margin: 0;
+  padding: 16px;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: linear-gradient(180deg, #fde2e4, #fff);
+  color: #4a0033;
 }
 
-#heart {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  font-size: 4rem;
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.5s ease;
-}
-
-#heart.show {
-  transform: translate(-50%, -50%) scale(1.5);
-  opacity: 1;
-}
-
-.download-btn {
-  display: inline-block;
-  margin-top: 5px;
-  padding: 6px 10px;
-  background: #ffb3c6;
-  color: #700030;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-}
-
-.download-btn:hover {
-  background: #ff8fab;
-}
+/* ===============================
+   💖 TITULOS
+================================ */
 
 h1 {
-  font-family: 'Playfair Display', serif;
   text-align: center;
+  color: #b3005e;
+  font-size: 1.8rem;
+  margin-bottom: 12px;
 }
+
+h2 {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 24px;
+}
+
+/* ===============================
+   📦 CARD
+================================ */
 
 .card {
   background: white;
-  border-radius: 25px;
-  padding: 25px;
-  width: 90%;
-  max-width: 400px;
-  margin: auto;
-  box-shadow: 0 15px 30px rgba(0,0,0,.1);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  margin-bottom: 16px;
 }
-.music-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #ff8fab;
+
+/* ===============================
+   📝 FORMULARIOS
+================================ */
+
+input, textarea, button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
   border: none;
-  border-radius: 50px;
-  padding: 12px 18px;
-  font-size: 16px;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  transition: transform 0.2s;
+  font-size: 1rem;
 }
 
-.music-btn:hover {
-  transform: scale(1.05);
+input, textarea {
+  background: #fff0f5;
 }
 
+textarea {
+  resize: none;
+  min-height: 90px;
+}
 
 button {
-  background: #f7a1b0;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 30px;
+  background: #ff5d8f;
   color: white;
-  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.1s ease;
 }
 
-textarea, input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 15px;
-  border: 1px solid #ddd;
+button:active {
+  transform: scale(0.97);
 }
 
-.landing {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* ===============================
+   🎵 BOTÓN MÚSICA
+================================ */
+
+.music-btn {
+  background: #ff85b3;
+  margin-bottom: 12px;
 }
 
-.letter {
-  animation: fadeIn 3s ease;
-  text-align: center;
-}
-
-.gallery {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.memory-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 15px;
-  margin: 15px;
-  width: 250px;
-  box-shadow: 0 10px 20px rgba(0,0,0,.1);
-}
-
-.memory-card img {
-  width: 100%;
-  border-radius: 12px;
-}
-
-.memory-card h3 {
-  color: #b3005e;
-}
-
-.calendar-container {
-  display: flex;
-  justify-content: center;
-}
+/* ===============================
+   📅 CALENDARIO
+================================ */
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-  max-width: 500px;
-}
-
-.day-header {
-  font-weight: bold;
-  color: #b3005e;
+  gap: 6px;
 }
 
 .day {
-  padding: 10px;
-  background: #ffe5ec;
-  border-radius: 10px;
-  cursor: pointer;
+  padding: 12px 0;
+  border-radius: 12px;
+  background: #fff;
+  text-align: center;
+  font-weight: 600;
 }
 
-.day:hover {
+.day.has-memory {
   background: #ffb3c6;
+  color: #4a0033;
 }
 
-.has-memory {
-  background: #ff8fab;
-  color: white;
-  font-weight: bold;
-}
+/* ===============================
+   💌 MEMORIES
+================================ */
 
 .memory-card {
   background: white;
-  padding: 15px;
-  margin: 15px auto;
-  border-radius: 15px;
-  max-width: 400px;
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.07);
+  margin-bottom: 12px;
+  position: relative;
 }
 
 .memory-card img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 14px;
+  margin-bottom: 8px;
 }
 
-.memory-card {
-  animation: fadeIn 0.6s ease-in-out;
+/* ❤️ Corazón animado */
+.heart {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 1.4rem;
+  animation: pulse 1.5s infinite;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-@media (max-width: 600px) {
-  .calendar-grid {
-    max-width: 100%;
-  }
-
-  .memory-card {
-    width: 90%;
-  }
-
-  h1, h2 {
-    font-size: 22px;
-  }
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ===============================
+   📥 DESCARGAR
+================================ */
+
+.download-btn {
+  background: #ffd6e5;
+  color: #b3005e;
+  margin-top: 6px;
+}
+
+/* ===============================
+   🔙 NAVEGACIÓN
+================================ */
+
+.back-btn {
+  background: #ffc2d1;
+  margin-bottom: 12px;
+}
+
+/* ===============================
+   🖥️ DESKTOP (OPCIONAL)
+================================ */
+
+@media (min-width: 768px) {
+  body {
+    max-width: 420px;
+    margin: auto;
+  }
 }
 
 
