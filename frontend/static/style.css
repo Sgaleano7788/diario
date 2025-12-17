@@ -19,6 +19,25 @@ h1 {
   margin: auto;
   box-shadow: 0 15px 30px rgba(0,0,0,.1);
 }
+.music-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #ff8fab;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 18px;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+.music-btn:hover {
+  transform: scale(1.05);
+}
+
 
 button {
   background: #f7a1b0;
@@ -152,3 +171,4 @@ textarea, input {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
