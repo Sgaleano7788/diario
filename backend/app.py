@@ -10,33 +10,28 @@ from datetime import datetime
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 from google_photos import upload_photo
-from flask import session
-
 
 # =============================
 # CONFIG
 # =============================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FRONTEND_DIR = os.path.join(BASE_DIR, "..", "frontend")
-UPLOAD_DIR = os.path.join(FRONTEND_DIR, "images", "uploads")
+STATIC_DIR = os.path.join(FRONTEND_DIR, "static")
+UPLOAD_DIR = os.path.join(STATIC_DIR, "images", "uploads")
 DB_NAME = os.path.join(BASE_DIR, "recuerdos.db")
 
-
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
-
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 app = Flask(
     __name__,
-    static_folder=os.path.join(FRONTEND_DIR, "static"),
+    static_folder=STATIC_DIR,
     static_url_path="/static"
 )
 
 app.secret_key = "album_secreto_de_amor_💖"
-
 CORS(app)
-
 
 # =============================
 # DATABASE
@@ -72,8 +67,8 @@ def login():
             GOOGLE_CLIENT_ID
         )
         return jsonify({
-            "email": info["email"],
-            "name": info["name"]
+            "email": info.get("email"),
+            "name": info.get("name")
         })
     except Exception:
         return jsonify({"error": "Token inválido"}), 401
@@ -90,17 +85,18 @@ def upload():
     if not fecha or not file:
         return jsonify({"error": "Faltan datos"}), 400
 
-    filename = f"{datetime.now().timestamp()}_{file.filename}"
+    filename = f"{int(datetime.now().timestamp())}_{file.filename}"
     save_path = os.path.join(UPLOAD_DIR, filename)
     file.save(save_path)
 
+    # Google Photos (opcional)
     photo_id = None
     try:
         photo_id = upload_photo(save_path)
     except Exception as e:
         print("Google Photos:", e)
 
-    image_path = f"/images/uploads/{filename}"
+    image_path = f"/static/images/uploads/{filename}"
 
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
@@ -111,12 +107,15 @@ def upload():
     conn.commit()
     conn.close()
 
-    return jsonify({"message": "Recuerdo guardado 💖"})
+    return jsonify({
+        "success": True,
+        "message": "💖 Recuerdo guardado con amor"
+    })
 
 # =============================
 # GET RECUERDOS
 # =============================
-@app.route("/recuerdos")
+@app.route("/recuerdos", methods=["GET"])
 def recuerdos():
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
@@ -138,7 +137,7 @@ def recuerdos():
     ])
 
 # =============================
-# FRONTEND
+# FRONTEND ROUTES
 # =============================
 @app.route("/")
 def login_page():
@@ -152,20 +151,10 @@ def index_page():
 def calendar_page():
     return send_from_directory(FRONTEND_DIR, "calendar.html")
 
-@app.route("/images/uploads/<filename>")
-def images(filename):
-    return send_from_directory(UPLOAD_DIR, filename)
-    
-@app.route("/static/<path:filename>")
-def static_files(filename):
-    return send_from_directory("../frontend", filename)
-
-
 # =============================
 # MAIN
 # =============================
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
-
+    app.run(host="0.0.0.0", port=10000, debug=True)
 
 
