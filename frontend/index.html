@@ -2,9 +2,19 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#ff5d8f">
   <title>Nuestro Álbum 📸</title>
   <link rel="stylesheet" href="/static/style.css">
 </head>
+
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/static/sw.js")
+    .then(() => console.log("Service Worker registrado 💖"))
+    .catch(err => console.error("SW error:", err));
+}
+</script>
 
 <body>
 
@@ -36,4 +46,5 @@
 <script src="/static/script.js"></script>
 </body>
 </html>
+
 
