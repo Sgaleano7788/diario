@@ -210,12 +210,12 @@ function showMemories(fecha) {
     card.className = "memory-card";
 
     card.innerHTML = `
-      ${r.image ? `<img src="${r.image}" alt="Recuerdo">` : ""}
+      <span class="heart">❤️</span>
+      ${r.image ? `<img src="${r.image}">` : ""}
       <p>${r.nota || ""}</p>
-
       ${r.image ? `
         <a href="${r.image}" download class="download-btn">
-          ⬇️ Descargar recuerdo
+          ⬇ Descargar recuerdo
         </a>
       ` : ""}
     `;
@@ -238,5 +238,6 @@ document.getElementById("next-month").onclick = () => {
 
 </body>
 </html>
+
 
 
