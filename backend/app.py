@@ -107,10 +107,11 @@ def upload():
     conn.commit()
     conn.close()
 
-    return jsonify({
-        "success": True,
-        "message": "💖 Recuerdo guardado con amor"
-    })
+   return jsonify({
+    "message": "Recuerdo guardado 💖",
+    "google_uploaded": photo_id is not None
+})
+
 
 # =============================
 # GET RECUERDOS
@@ -156,5 +157,6 @@ def calendar_page():
 # =============================
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000, debug=True)
+
 
 
